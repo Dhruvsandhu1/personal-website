@@ -1,0 +1,81 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 222.2 84% 4.9%;
+    --foreground: 210 40% 98%;
+    --card: 222.2 84% 4.9%;
+    --card-foreground: 210 40% 98%;
+    --popover: 222.2 84% 4.9%;
+    --popover-foreground: 210 40% 98%;
+    --primary: 173 80% 40%; /* Tealish Green */
+    --primary-rgb: 20, 184, 140; /* RGB for Tealish Green (approx) */
+    --primary-foreground: 210 40% 98%;
+    --secondary: 217.2 32.6% 17.5%;
+    --secondary-foreground: 210 40% 98%;
+    --muted: 217.2 32.6% 17.5%;
+    --muted-foreground: 215 20.2% 65.1%;
+    --accent: 217.2 32.6% 17.5%;
+    --accent-foreground: 210 40% 98%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 217.2 32.6% 17.5%;
+    --input: 217.2 32.6% 17.5%;
+    --ring: 173 80% 40%; /* Tealish Green for ring */
+    --radius: 0.75rem;
+  }
+
+  .dark {
+    /* Keep the same for a forced dark theme, or define specific dark variations if needed */
+    --background: 222.2 84% 4.9%; /* Dark Blue-Gray */
+    --foreground: 210 40% 98%; /* Light Gray */
+    --card: 224, 71%, 4%; /* Slightly different dark for cards */
+    --card-foreground: 210 40% 98%;
+    --popover: 222.2 84% 4.9%;
+    --popover-foreground: 210 40% 98%;
+    --primary: 173, 80%, 40%; /* Tealish Green */
+    --primary-rgb: 20, 184, 140; /* RGB for Tealish Green (approx) */
+    --primary-foreground: 20, 8%, 98%; /* Very Light Gray/White */
+    --secondary: 220, 15%, 15%; /* Darker Gray */
+    --secondary-foreground: 210 40% 98%;
+    --muted: 220, 15%, 15%;
+    --muted-foreground: 215, 20.2%, 55.1%; /* Slightly lighter muted text */
+    --accent: 220, 15%, 25%; /* Slightly lighter accent */
+    --accent-foreground: 210 40% 98%;
+    --destructive: 0, 70%, 50%; /* Brighter Red for destructive actions */
+    --destructive-foreground: 210 40% 98%;
+    --border: 220, 15%, 20%; /* Slightly lighter border */
+    --input: 220, 15%, 20%;
+    --ring: 173, 80%, 40%; /* Tealish Green for ring */
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}
+
+/* For developer icons CDN */
+@import url("https://cdn.jsdelivr.net/gh/devicons/devicon@v2.15.1/devicon.min.css");
+
+@layer utilities {
+  .custom-scrollbar::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+  .custom-scrollbar::-webkit-scrollbar-track {
+    @apply bg-transparent;
+  }
+  .custom-scrollbar::-webkit-scrollbar-thumb {
+    @apply bg-slate-700 rounded-full;
+  }
+  .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+    @apply bg-slate-600;
+  }
+}
