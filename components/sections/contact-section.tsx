@@ -71,48 +71,48 @@ function Web3ContactForm({ status, setStatus, loading, setLoading, success, setS
       <input type="text" name="botcheck" className="hidden" tabIndex={-1} autoComplete="off" aria-hidden="true" />
 
       <div className="grid sm:grid-cols-2 gap-6">
-        <div className="space-y-2">
-          <Label htmlFor="name">Full Name</Label>
+        <div className="space-y-2 group">
+          <Label htmlFor="name" className="text-cyan-400 font-mono text-sm uppercase tracking-widest group-focus-within:text-purple-400 transition-colors">Full Name</Label>
           <Input
             id="name"
             name="name"
-            placeholder="Your Name"
+            placeholder="[Enter Your Name]"
             required
-            className="bg-card border-border focus:border-primary"
+            className="bg-slate-900 border-slate-700/80 focus:border-cyan-400 font-mono text-white placeholder:text-slate-600 focus:ring-2 focus:ring-cyan-500/50 transition-all rounded-lg"
           />
         </div>
-        <div className="space-y-2">
-          <Label htmlFor="email">Email Address</Label>
+        <div className="space-y-2 group">
+          <Label htmlFor="email" className="text-cyan-400 font-mono text-sm uppercase tracking-widest group-focus-within:text-purple-400 transition-colors">Email Address</Label>
           <Input
             id="email"
             name="email"
             type="email"
-            placeholder="your@email.com"
+            placeholder="[user@domain.com]"
             required
-            className="bg-card border-border focus:border-primary"
+            className="bg-slate-900 border-slate-700/80 focus:border-cyan-400 font-mono text-white placeholder:text-slate-600 focus:ring-2 focus:ring-cyan-500/50 transition-all rounded-lg"
           />
         </div>
       </div>
 
-      <div className="space-y-2">
-        <Label htmlFor="subject">Subject</Label>
+      <div className="space-y-2 group">
+        <Label htmlFor="subject" className="text-cyan-400 font-mono text-sm uppercase tracking-widest group-focus-within:text-purple-400 transition-colors">Subject</Label>
         <Input
           id="subject"
           name="subject"
-          placeholder="Regarding..."
-          className="bg-card border-border focus:border-primary"
+          placeholder="[Query Subject]"
+          className="bg-slate-900 border-slate-700/80 focus:border-cyan-400 font-mono text-white placeholder:text-slate-600 focus:ring-2 focus:ring-cyan-500/50 transition-all rounded-lg"
         />
       </div>
 
-      <div className="space-y-2">
-        <Label htmlFor="message">Message</Label>
+      <div className="space-y-2 group">
+        <Label htmlFor="message" className="text-cyan-400 font-mono text-sm uppercase tracking-widest group-focus-within:text-purple-400 transition-colors">Transmission Payload</Label>
         <Textarea
           id="message"
           name="message"
-          placeholder="Your message here..."
+          placeholder="[Type your transmission message here...]"
           rows={5}
           required
-          className="bg-card border-border focus:border-primary"
+          className="bg-slate-900 border-slate-700/80 focus:border-cyan-400 font-mono text-white placeholder:text-slate-600 focus:ring-2 focus:ring-cyan-500/50 transition-all rounded-lg resize-none"
         />
       </div>
 
@@ -120,22 +120,22 @@ function Web3ContactForm({ status, setStatus, loading, setLoading, success, setS
         <Button
           type="submit"
           size="lg"
-          className="w-full sm:w-auto bg-primary hover:bg-primary/90 text-primary-foreground"
+          className="w-full sm:w-auto font-mono uppercase tracking-widest bg-cyan-500/20 text-cyan-400 border border-cyan-500/50 hover:bg-purple-500/20 hover:text-purple-400 hover:border-purple-500/50 transition-all duration-300 shadow-[0_0_15px_rgba(6,182,212,0.3)] hover:shadow-[0_0_20px_rgba(192,132,252,0.4)]"
           disabled={loading}
         >
           {loading ? <Loader2 className="h-5 w-5 mr-2 animate-spin" /> : <Send className="h-5 w-5 mr-2" />}
-          {loading ? "Sending..." : "Send Message"}
+          {loading ? "TRANSMITTING..." : "TRANSMIT"}
         </Button>
 
         {status && (
           <p
-            className={`mt-4 text-sm text-center ${
-              success === true ? "text-green-500" : success === false ? "text-red-500" : "text-muted-foreground"
+            className={`mt-4 font-mono text-sm tracking-wide text-center drop-shadow-[0_0_5px_rgba(255,255,255,0.2)] ${
+              success === true ? "text-cyan-400" : success === false ? "text-red-400" : "text-white/70"
             }`}
             role="status"
             aria-live="polite"
           >
-            {status}
+            {success === true ? "[SUCCESS]: " : success === false ? "[ERROR]: " : "[PROCESSING]: "}{status}
           </p>
         )}
       </div>
@@ -149,33 +149,45 @@ export function ContactSection() {
   const [success, setSuccess] = useState<boolean | null>(null)
 
   return (
-    <section id="contact" className="py-16 md:py-24 bg-card">
-      <div className="container mx-auto px-4 md:px-6">
-        <Reveal>
-          <h2 className="text-3xl md:text-4xl font-bold text-center mb-2">Get In Touch</h2>
-        </Reveal>
+    <section id="contact" className="py-20 md:py-32 bg-slate-950 relative overflow-hidden">
+      {/* Background Pulse */}
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-3/4 h-3/4 bg-purple-900/20 blur-[150px] rounded-full pointer-events-none z-0"></div>
+
+      <div className="container mx-auto px-4 md:px-6 relative z-10">
+        <div className="flex flex-col items-center justify-center mb-12">
+          <Reveal>
+            <h2 className="text-4xl md:text-5xl font-black font-mono text-center text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-purple-500 drop-shadow-[0_0_10px_rgba(192,132,252,0.3)] mb-2 uppercase tracking-tight">
+              Initialize Contact
+            </h2>
+          </Reveal>
+          <div className="h-1 w-20 bg-gradient-to-r from-cyan-500 to-purple-500 rounded-full"></div>
+        </div>
         <Reveal delay={0.06}>
-          <p className="text-lg text-muted-foreground text-center mb-12 max-w-xl mx-auto">
-            Have a project in mind, a question, or just want to connect? Feel free to reach out!
+          <p className="font-mono text-cyan-300/70 text-center mb-12 max-w-xl mx-auto">
+            {'>'} system input awaiting transmission pattern //
           </p>
         </Reveal>
         <Reveal delay={0.12}>
-          <Card className="max-w-2xl mx-auto bg-background shadow-2xl">
-            <CardHeader>
-              <CardTitle className="text-2xl">Send me a message</CardTitle>
-              <CardDescription>I typically respond within 24-48 hours.</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <Web3ContactForm
-                status={status}
-                setStatus={setStatus}
-                loading={loading}
-                setLoading={setLoading}
-                success={success}
-                setSuccess={setSuccess}
-              />
-            </CardContent>
-          </Card>
+          <div className="max-w-2xl mx-auto relative group/form">
+            <div className="absolute inset-0 bg-gradient-to-b from-cyan-500/20 to-purple-500/20 rounded-3xl blur-xl opacity-0 group-hover/form:opacity-100 transition-opacity duration-1000 pointer-events-none"></div>
+            <Card className="bg-slate-900/60 backdrop-blur-xl border border-slate-700/50 shadow-[0_0_30px_rgba(6,182,212,0.15)] group-hover/form:border-cyan-500/50 transition-all duration-500 relative z-10 overflow-hidden">
+              <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-cyan-400 to-purple-500"></div>
+              <CardHeader>
+                <CardTitle className="text-2xl font-mono text-white/95 text-center tracking-tight">Open Secure Channel</CardTitle>
+                <CardDescription className="text-center font-mono uppercase text-xs tracking-widest text-slate-400 mt-2">Latency: ~24.0 hours</CardDescription>
+              </CardHeader>
+              <CardContent>
+                <Web3ContactForm
+                  status={status}
+                  setStatus={setStatus}
+                  loading={loading}
+                  setLoading={setLoading}
+                  success={success}
+                  setSuccess={setSuccess}
+                />
+              </CardContent>
+            </Card>
+          </div>
         </Reveal>
       </div>
     </section>

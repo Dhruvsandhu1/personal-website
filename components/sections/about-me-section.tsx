@@ -1,10 +1,16 @@
 import Image from "next/image"
 import { Reveal } from "@/components/ui/reveal"
+import { SmokeBackground } from "@/components/ui/spooky-smoke-animation"
 
 export function AboutMeSection() {
   return (
-    <section id="about" className="py-16 md:py-24 bg-card">
-      <div className="container mx-auto px-4 md:px-6">
+    <section id="about" className="relative py-16 md:py-24 bg-card overflow-hidden">
+      {/* Interactive WebGL Background */}
+      <div className="absolute inset-0 z-0 pointer-events-none opacity-40">
+        <SmokeBackground smokeColor="#1e3a8a" />
+      </div>
+
+      <div className="container mx-auto px-4 md:px-6 relative z-10">
         <Reveal>
           <h2 className="text-3xl md:text-4xl font-bold text-center mb-12">About Me</h2>
         </Reveal>

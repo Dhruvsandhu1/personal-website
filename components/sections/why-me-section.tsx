@@ -38,14 +38,22 @@ const sellingPoints = [
 
 export function WhyMeSection() {
   return (
-    <section id="why-me" className="py-16 md:py-24 bg-background">
-      <div className="container mx-auto px-4 md:px-6">
-        <h2 className="text-3xl md:text-4xl font-bold text-center mb-4">Why Choose Me?</h2>
-        <p className="text-lg text-muted-foreground text-center mb-12 max-w-2xl mx-auto">
-          I bring a unique blend of technical skill, creative problem-solving, and a commitment to excellence to every
-          project.
+    <section id="why-me" className="py-20 md:py-32 bg-slate-950 relative overflow-hidden">
+      {/* Abstract Background Shapes */}
+      <div className="absolute top-0 right-0 w-1/2 h-1/2 bg-purple-500/10 blur-[150px] rounded-full pointer-events-none z-0 mix-blend-screen"></div>
+      <div className="absolute bottom-0 left-0 w-1/2 h-1/2 bg-cyan-500/10 blur-[150px] rounded-full pointer-events-none z-0 mix-blend-screen"></div>
+
+      <div className="container mx-auto px-4 md:px-6 relative z-10">
+        <div className="flex flex-col items-center justify-center mb-8">
+          <h2 className="text-4xl md:text-5xl font-black font-mono text-center text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-cyan-400 drop-shadow-[0_0_10px_rgba(192,132,252,0.3)] mb-2 uppercase tracking-tight">
+            Why.Me?
+          </h2>
+          <div className="h-1 w-20 bg-gradient-to-r from-purple-500 to-cyan-500 rounded-full"></div>
+        </div>
+        <p className="font-mono text-lg text-cyan-300/70 text-center mb-16 max-w-2xl mx-auto">
+          {'>'} I bring a unique blend of technical skill, creative problem-solving, and a commitment to excellence to every project.
         </p>
-        <div className="max-w-5xl mx-auto">
+        <div className="max-w-6xl mx-auto">
           <HoverEffect items={sellingPoints} />
         </div>
       </div>
