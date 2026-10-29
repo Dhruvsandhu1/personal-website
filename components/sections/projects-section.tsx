@@ -1,129 +1,179 @@
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
-import { Badge } from "@/components/ui/badge" // Import Badge
 import Image from "next/image"
 import Link from "next/link"
-import { Github, ExternalLink } from "lucide-react"
+import { ArrowUpRight, Github } from "lucide-react"
 import { Reveal } from "@/components/ui/reveal"
-import { CardContainer, CardBody, CardItem } from "@/components/ui/3d-card"
-import { BeamsBackground } from "@/components/ui/beams-background"
+import { SectionHeading } from "@/components/section-heading"
+import { cn } from "@/lib/utils"
 
-const projects = [
+type Project = {
+  title: string
+  category: string
+  description: string
+  imageUrl: string
+  tags: string[]
+  githubUrl: string
+  liveUrl: string | null
+}
+
+const projects: Project[] = [
   {
-    title: "Llama 2 implementation from scratch",
+    title: "Llama 2, from scratch",
+    category: "Large Language Models",
     description:
-      "Implementation of LLama2 from scratch with KV cache,RoPE,Group Query Attention and different sampling stategy like beam search,greedy",
+      "A ground-up implementation of the Llama 2 architecture with KV caching, Rotary Positional Embeddings and Grouped-Query Attention — plus multiple decoding strategies including beam search and greedy sampling.",
     imageUrl: "https://res.cloudinary.com/di1pcuklp/image/upload/v1756665763/Llama-2-blog-image-1_trtswi.png",
-    tags: ["Python", "PyTorch", "LLM", "Implementation"],
+    tags: ["Python", "PyTorch", "LLM", "Transformers"],
     githubUrl: "https://github.com/Dhruvsandhu1/llama-2-implementation",
     liveUrl: null,
   },
   {
     title: "Knowledge Distillation",
+    category: "Model Compression",
     description:
-      "Distilled knowledge fom the base teacher model to student and then did instruct fine tuning,student model can be both layer pruned,width pruned teacher model or completely different model",
+      "Distils a teacher model into a smaller student, followed by instruction fine-tuning. The student can be a layer-pruned or width-pruned teacher, or an entirely different architecture.",
     imageUrl: "https://res.cloudinary.com/di1pcuklp/image/upload/v1756666930/knowledge_distillation_2_sx4k8u.jpg",
-    tags: ["Python", "Pytorch", "SFT" ,"Pruning"],
+    tags: ["PyTorch", "SFT", "Pruning"],
     githubUrl: "https://github.com/Dhruvsandhu1/Knowledge_distillation",
     liveUrl: null,
   },
   {
-    title: "GraTeD MLP",
+    title: "GraTeD-MLP",
+    category: "Graph Learning · Paper Implementation",
     description:
-      "Implementation of a research paper namely GraTeD MLP distillation which demonstrates how to distil Graph Transformer model to vanilla mlp while leaverging the benefits of the graph transformer with the complex data type ie its Attention Matrix :)",
+      "Implements GraTeD-MLP distillation: compressing a Graph Transformer into a vanilla MLP while retaining the benefits of its attention matrix over complex graph data.",
     imageUrl: "https://res.cloudinary.com/di1pcuklp/image/upload/v1756670090/grated-MLP_cqnpj1.png",
-    tags: ["Python", "GNN", "Distillation"],
+    tags: ["PyTorch", "GNN", "Distillation"],
     githubUrl: "https://github.com/Dhruvsandhu1/GraTeD_MLP",
     liveUrl: null,
   },
 ]
 
-export function ProjectsSection() {
+function ProjectCard({ project, index, featured }: { project: Project; index: number; featured?: boolean }) {
   return (
-    <section id="projects" className="relative w-full overflow-hidden">
-      <BeamsBackground className="py-20 md:py-32 min-h-screen" intensity="medium">
-        <div className="container mx-auto px-4 md:px-6 relative z-20 w-full">
-          <div className="flex flex-col items-center justify-center mb-16">
-            <Reveal>
-              <h2 className="text-4xl md:text-5xl font-black font-mono text-center text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-purple-500 drop-shadow-[0_0_10px_rgba(6,182,212,0.3)] mb-2 uppercase tracking-tight">
-                Project.Deployments
-              </h2>
-            </Reveal>
-            <Reveal delay={0.1}>
-              <div className="h-1 w-20 bg-gradient-to-r from-cyan-500 to-purple-500 rounded-full mx-auto"></div>
-            </Reveal>
-          </div>
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 w-full">
-          {projects.map((project, index) => (
-            <Reveal key={index} delay={index * 0.06}>
-              <CardContainer className="inter-var w-full">
-                <CardBody className="bg-slate-800/30 backdrop-blur-xl relative group/card dark:hover:shadow-2xl dark:hover:shadow-primary/[0.1] border border-slate-700/50 w-auto rounded-xl shadow-2xl hover:shadow-primary/40 transition-all duration-300 h-[32rem]">
-                  <CardItem translateZ="50" className="w-full mt-4 p-6 pt-0">
-                    <div className="relative h-48 w-full overflow-hidden rounded-xl border border-slate-700/50">
-                      <Image
-                        src={project.imageUrl || "/placeholder.svg"}
-                        alt={project.title}
-                        fill
-                        className="object-cover group-hover/card:scale-105 transition-transform duration-500 ease-in-out"
-                      />
-                    </div>
-                  </CardItem>
-                  <CardItem
-                    translateZ="60"
-                    className="p-6 pt-2 pb-0"
-                  >
-                    <CardTitle className="text-xl font-semibold text-foreground">{project.title}</CardTitle>
-                    <CardDescription className="h-20 overflow-y-auto text-muted-foreground mt-2 text-sm custom-scrollbar">
-                      {project.description}
-                    </CardDescription>
-                  </CardItem>
-                  <CardItem translateZ="40" className="w-full px-6 py-4">
-                    <div className="flex flex-wrap gap-2">
-                      {project.tags.map((tag) => (
-                        <Badge
-                          key={tag}
-                          variant="secondary"
-                          className="bg-primary/10 text-primary border-primary/30 hover:bg-primary/20 transition-colors"
-                        >
-                          {tag}
-                        </Badge>
-                      ))}
-                    </div>
-                  </CardItem>
-                  <CardItem
-                    translateZ="20"
-                    className="w-full px-6 pb-6 pt-2 flex justify-end gap-3"
-                  >
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      asChild
-                      className="bg-transparent border-primary text-primary hover:bg-primary hover:text-primary-foreground transition-colors duration-200"
-                    >
-                      <Link href={project.githubUrl} target="_blank" rel="noopener noreferrer">
-                        <Github className="h-4 w-4 mr-2" /> GitHub
-                      </Link>
-                    </Button>
-                    {project.liveUrl && (
-                      <Button
-                        variant="default"
-                        size="sm"
-                        asChild
-                        className="bg-primary hover:bg-primary/80 text-primary-foreground transition-colors duration-200"
-                      >
-                        <Link href={project.liveUrl} target="_blank" rel="noopener noreferrer">
-                          <ExternalLink className="h-4 w-4 mr-2" /> Live Demo
-                        </Link>
-                      </Button>
-                    )}
-                  </CardItem>
-                </CardBody>
-              </CardContainer>
-            </Reveal>
+    <article
+      className={cn(
+        "surface group overflow-hidden p-2 transition-colors duration-500 hover:border-white/[0.14]",
+        featured && "lg:grid lg:grid-cols-[1.2fr_1fr]",
+      )}
+    >
+      <Link
+        href={project.githubUrl}
+        target="_blank"
+        rel="noopener noreferrer"
+        className={cn(
+          "relative block overflow-hidden rounded-xl bg-zinc-900",
+          featured ? "aspect-[16/10] lg:aspect-auto lg:min-h-[26rem]" : "aspect-[16/10]",
+        )}
+        aria-label={`${project.title} on GitHub`}
+      >
+        <Image
+          src={project.imageUrl}
+          alt=""
+          fill
+          sizes={featured ? "(min-width: 1024px) 640px, 100vw" : "(min-width: 768px) 520px, 100vw"}
+          className="object-cover transition-transform duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-[1.04]"
+        />
+        <div aria-hidden className="absolute inset-0 bg-gradient-to-t from-zinc-950/50 via-transparent to-transparent" />
+        <span className="absolute left-4 top-4 rounded-full border border-white/15 bg-zinc-950/60 px-3 py-1 font-mono text-[10px] uppercase tracking-[0.18em] text-foreground/80 backdrop-blur-md">
+          {String(index + 1).padStart(2, "0")}
+        </span>
+      </Link>
+
+      <div className={cn("flex flex-1 flex-col p-5 md:p-6", featured && "lg:p-10")}>
+        <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-primary">{project.category}</p>
+        <h3
+          className={cn(
+            "mt-3 font-semibold tracking-[-0.03em]",
+            featured ? "text-2xl md:text-4xl" : "text-xl md:text-2xl",
+          )}
+        >
+          {project.title}
+        </h3>
+        <p className="mt-4 text-[15px] leading-relaxed text-muted-foreground">{project.description}</p>
+
+        <ul className="mt-6 flex flex-wrap gap-2">
+          {project.tags.map((tag) => (
+            <li
+              key={tag}
+              className="rounded-full border border-white/[0.08] px-3 py-1 font-mono text-[11px] text-muted-foreground"
+            >
+              {tag}
+            </li>
           ))}
+        </ul>
+
+        <div className="mt-auto flex items-center gap-5 pt-8">
+          <Link
+            href={project.githubUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="group/link inline-flex items-center gap-2 text-sm font-medium"
+          >
+            <Github className="h-4 w-4" />
+            View source
+            <ArrowUpRight className="h-4 w-4 text-muted-foreground transition-transform group-hover/link:-translate-y-0.5 group-hover/link:translate-x-0.5 group-hover/link:text-primary" />
+          </Link>
+          {project.liveUrl && (
+            <Link
+              href={project.liveUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="group/link inline-flex items-center gap-2 text-sm font-medium text-muted-foreground hover:text-foreground"
+            >
+              Live demo
+              <ArrowUpRight className="h-4 w-4" />
+            </Link>
+          )}
+        </div>
+      </div>
+    </article>
+  )
+}
+
+export function ProjectsSection() {
+  const [featured, ...rest] = projects
+
+  return (
+    <section id="projects" className="relative border-t border-white/[0.06] py-28 md:py-40">
+      <div className="container max-w-6xl">
+        <div className="flex flex-col gap-8 md:flex-row md:items-end md:justify-between">
+          <SectionHeading
+            index="03"
+            label="Selected work"
+            className="mb-0 md:mb-0"
+            title={
+              <>
+                Models, built from{" "}
+                <span className="font-serif font-normal italic tracking-[-0.02em] text-primary">first principles.</span>
+              </>
+            }
+          />
+          <Reveal>
+            <Link
+              href="https://github.com/Dhruvsandhu1"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="group inline-flex shrink-0 items-center gap-2 text-sm text-muted-foreground transition-colors hover:text-foreground"
+            >
+              All repositories on GitHub
+              <ArrowUpRight className="h-4 w-4 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
+            </Link>
+          </Reveal>
+        </div>
+
+        <div className="mt-14 md:mt-20 grid gap-4">
+          <Reveal>
+            <ProjectCard project={featured} index={0} featured />
+          </Reveal>
+          <div className="grid gap-4 md:grid-cols-2">
+            {rest.map((project, i) => (
+              <Reveal key={project.title} delay={i * 0.06} className="h-full [&>article]:flex [&>article]:h-full [&>article]:flex-col">
+                <ProjectCard project={project} index={i + 1} />
+              </Reveal>
+            ))}
           </div>
         </div>
-      </BeamsBackground>
+      </div>
     </section>
   )
 }

@@ -1,36 +1,51 @@
 "use client"
 
 import { useState, type FormEvent } from "react"
-import { Send, Loader2 } from "lucide-react"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Textarea } from "@/components/ui/textarea"
-import { Label } from "@/components/ui/label"
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
+import Link from "next/link"
+import { ArrowUpRight, Check, Copy, Loader2, Send } from "lucide-react"
 import { Reveal } from "@/components/ui/reveal"
+import { SectionHeading } from "@/components/section-heading"
+import { cn } from "@/lib/utils"
 
-function Web3ContactForm({ status, setStatus, loading, setLoading, success, setSuccess }: any) {
+const EMAIL = "dhruvsandhu21@gmail.com"
+const ACCESS_KEY = "9433f5d6-c011-4918-8d16-b6656b062f22"
+
+const profiles = [
+  { label: "GitHub", handle: "Dhruvsandhu1", href: "https://github.com/Dhruvsandhu1" },
+  { label: "LinkedIn", handle: "dhruvsandhu", href: "https://www.linkedin.com/in/dhruvsandhu/" },
+  { label: "Kaggle", handle: "dhruvsandhu1", href: "https://www.kaggle.com/dhruvsandhu1" },
+  { label: "Codeforces", handle: "Decoder_RAG", href: "https://codeforces.com/profile/Decoder_RAG" },
+  { label: "CodeChef", handle: "dhruv_sandhu22", href: "https://www.codechef.com/users/dhruv_sandhu22" },
+]
+
+const fieldClass =
+  "w-full rounded-xl border border-white/[0.08] bg-white/[0.02] px-4 py-3 text-[15px] text-foreground placeholder:text-muted-foreground/60 outline-none transition-colors focus:border-primary/60 focus:bg-white/[0.035] focus:ring-4 focus:ring-primary/10"
+
+function ContactForm() {
+  const [status, setStatus] = useState("")
+  const [loading, setLoading] = useState(false)
+  const [success, setSuccess] = useState<boolean | null>(null)
+
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()
     const form = event.currentTarget
 
     setLoading(true)
     setSuccess(null)
-    setStatus("Please wait...")
+    setStatus("")
 
     try {
       const formData = new FormData(form)
 
       // Required by Web3Forms
       if (!formData.has("access_key")) {
-        formData.append("access_key", "9433f5d6-c011-4918-8d16-b6656b062f22")
+        formData.append("access_key", ACCESS_KEY)
       }
-      // Optional: default subject if user leaves it blank
+      // Default subject if the visitor leaves it blank
       if (!formData.get("subject")) {
         formData.set("subject", "New message from portfolio")
       }
 
-      // Build JSON payload
       const payload: Record<string, string> = {}
       formData.forEach((value, key) => {
         payload[key] = typeof value === "string" ? value : String(value)
@@ -48,147 +63,173 @@ function Web3ContactForm({ status, setStatus, loading, setLoading, success, setS
       const data = await res.json()
       if (res.ok) {
         setSuccess(true)
-        setStatus(data?.message || "Message sent successfully! I'll get back to you soon.")
+        setStatus("Thanks — your message is on its way. I'll get back to you soon.")
         form.reset()
       } else {
         setSuccess(false)
         setStatus(data?.message || "Something went wrong while sending your message.")
       }
-    } catch (err) {
+    } catch {
       setSuccess(false)
-      setStatus("Something went wrong! Please try again.")
+      setStatus("Something went wrong. Please try again, or email me directly.")
     } finally {
       setLoading(false)
-      // Auto-clear message after a few seconds
-      setTimeout(() => setStatus(""), 5000)
+      setTimeout(() => setStatus(""), 6000)
     }
   }
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-6">
-      {/* Web3Forms required key and honeypot */}
-      <input type="hidden" name="access_key" value="9433f5d6-c011-4918-8d16-b6656b062f22" />
+    <form onSubmit={handleSubmit} className="space-y-5">
+      {/* Web3Forms key and honeypot */}
+      <input type="hidden" name="access_key" value={ACCESS_KEY} />
       <input type="text" name="botcheck" className="hidden" tabIndex={-1} autoComplete="off" aria-hidden="true" />
 
-      <div className="grid sm:grid-cols-2 gap-6">
-        <div className="space-y-2 group">
-          <Label htmlFor="name" className="text-cyan-400 font-mono text-sm uppercase tracking-widest group-focus-within:text-purple-400 transition-colors">Full Name</Label>
-          <Input
-            id="name"
-            name="name"
-            placeholder="[Enter Your Name]"
-            required
-            className="bg-slate-900 border-slate-700/80 focus:border-cyan-400 font-mono text-white placeholder:text-slate-600 focus:ring-2 focus:ring-cyan-500/50 transition-all rounded-lg"
-          />
-        </div>
-        <div className="space-y-2 group">
-          <Label htmlFor="email" className="text-cyan-400 font-mono text-sm uppercase tracking-widest group-focus-within:text-purple-400 transition-colors">Email Address</Label>
-          <Input
-            id="email"
+      <div className="grid gap-5 sm:grid-cols-2">
+        <label className="block space-y-2">
+          <span className="text-sm text-foreground/80">Name</span>
+          <input name="name" required placeholder="Jane Doe" autoComplete="name" className={fieldClass} />
+        </label>
+        <label className="block space-y-2">
+          <span className="text-sm text-foreground/80">Email</span>
+          <input
             name="email"
             type="email"
-            placeholder="[user@domain.com]"
             required
-            className="bg-slate-900 border-slate-700/80 focus:border-cyan-400 font-mono text-white placeholder:text-slate-600 focus:ring-2 focus:ring-cyan-500/50 transition-all rounded-lg"
+            placeholder="jane@company.com"
+            autoComplete="email"
+            className={fieldClass}
           />
-        </div>
+        </label>
       </div>
 
-      <div className="space-y-2 group">
-        <Label htmlFor="subject" className="text-cyan-400 font-mono text-sm uppercase tracking-widest group-focus-within:text-purple-400 transition-colors">Subject</Label>
-        <Input
-          id="subject"
-          name="subject"
-          placeholder="[Query Subject]"
-          className="bg-slate-900 border-slate-700/80 focus:border-cyan-400 font-mono text-white placeholder:text-slate-600 focus:ring-2 focus:ring-cyan-500/50 transition-all rounded-lg"
-        />
-      </div>
+      <label className="block space-y-2">
+        <span className="text-sm text-foreground/80">
+          Subject <span className="text-muted-foreground">(optional)</span>
+        </span>
+        <input name="subject" placeholder="Role, project or collaboration" className={fieldClass} />
+      </label>
 
-      <div className="space-y-2 group">
-        <Label htmlFor="message" className="text-cyan-400 font-mono text-sm uppercase tracking-widest group-focus-within:text-purple-400 transition-colors">Transmission Payload</Label>
-        <Textarea
-          id="message"
+      <label className="block space-y-2">
+        <span className="text-sm text-foreground/80">Message</span>
+        <textarea
           name="message"
-          placeholder="[Type your transmission message here...]"
           rows={5}
           required
-          className="bg-slate-900 border-slate-700/80 focus:border-cyan-400 font-mono text-white placeholder:text-slate-600 focus:ring-2 focus:ring-cyan-500/50 transition-all rounded-lg resize-none"
+          placeholder="Tell me a little about what you're working on…"
+          className={cn(fieldClass, "resize-none")}
         />
-      </div>
+      </label>
 
-      <div className="flex flex-col items-center">
-        <Button
-          type="submit"
-          size="lg"
-          className="w-full sm:w-auto font-mono uppercase tracking-widest bg-cyan-500/20 text-cyan-400 border border-cyan-500/50 hover:bg-purple-500/20 hover:text-purple-400 hover:border-purple-500/50 transition-all duration-300 shadow-[0_0_15px_rgba(6,182,212,0.3)] hover:shadow-[0_0_20px_rgba(192,132,252,0.4)]"
-          disabled={loading}
+      <div className="flex flex-col-reverse gap-4 pt-2 sm:flex-row sm:items-center sm:justify-between">
+        <p
+          role="status"
+          aria-live="polite"
+          className={cn(
+            "text-sm min-h-5",
+            success === true && "text-primary",
+            success === false && "text-destructive",
+          )}
         >
-          {loading ? <Loader2 className="h-5 w-5 mr-2 animate-spin" /> : <Send className="h-5 w-5 mr-2" />}
-          {loading ? "TRANSMITTING..." : "TRANSMIT"}
-        </Button>
-
-        {status && (
-          <p
-            className={`mt-4 font-mono text-sm tracking-wide text-center drop-shadow-[0_0_5px_rgba(255,255,255,0.2)] ${
-              success === true ? "text-cyan-400" : success === false ? "text-red-400" : "text-white/70"
-            }`}
-            role="status"
-            aria-live="polite"
-          >
-            {success === true ? "[SUCCESS]: " : success === false ? "[ERROR]: " : "[PROCESSING]: "}{status}
-          </p>
-        )}
+          {status}
+        </p>
+        <button
+          type="submit"
+          disabled={loading}
+          className="inline-flex h-12 shrink-0 items-center justify-center gap-2 rounded-full bg-primary px-6 text-sm font-medium text-primary-foreground transition-all hover:brightness-110 disabled:opacity-70"
+        >
+          {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : <Send className="h-4 w-4" />}
+          {loading ? "Sending…" : "Send message"}
+        </button>
       </div>
     </form>
   )
 }
 
 export function ContactSection() {
-  const [status, setStatus] = useState("")
-  const [loading, setLoading] = useState(false)
-  const [success, setSuccess] = useState<boolean | null>(null)
+  const [copied, setCopied] = useState(false)
+
+  const copyEmail = async () => {
+    try {
+      await navigator.clipboard.writeText(EMAIL)
+      setCopied(true)
+      setTimeout(() => setCopied(false), 2000)
+    } catch {
+      window.location.href = `mailto:${EMAIL}`
+    }
+  }
 
   return (
-    <section id="contact" className="py-20 md:py-32 bg-slate-950 relative overflow-hidden">
-      {/* Background Pulse */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-3/4 h-3/4 bg-purple-900/20 blur-[150px] rounded-full pointer-events-none z-0"></div>
+    <section id="contact" className="relative isolate overflow-hidden border-t border-white/[0.06] py-28 md:py-40">
+      <div
+        aria-hidden
+        className="absolute bottom-[-20rem] left-1/2 -z-10 h-[36rem] w-[60rem] -translate-x-1/2 rounded-full bg-primary/[0.09] blur-[120px]"
+      />
 
-      <div className="container mx-auto px-4 md:px-6 relative z-10">
-        <div className="flex flex-col items-center justify-center mb-12">
-          <Reveal>
-            <h2 className="text-4xl md:text-5xl font-black font-mono text-center text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-purple-500 drop-shadow-[0_0_10px_rgba(192,132,252,0.3)] mb-2 uppercase tracking-tight">
-              Initialize Contact
-            </h2>
-          </Reveal>
-          <div className="h-1 w-20 bg-gradient-to-r from-cyan-500 to-purple-500 rounded-full"></div>
-        </div>
-        <Reveal delay={0.06}>
-          <p className="font-mono text-cyan-300/70 text-center mb-12 max-w-xl mx-auto">
-            {'>'} system input awaiting transmission pattern //
-          </p>
-        </Reveal>
-        <Reveal delay={0.12}>
-          <div className="max-w-2xl mx-auto relative group/form">
-            <div className="absolute inset-0 bg-gradient-to-b from-cyan-500/20 to-purple-500/20 rounded-3xl blur-xl opacity-0 group-hover/form:opacity-100 transition-opacity duration-1000 pointer-events-none"></div>
-            <Card className="bg-slate-900/60 backdrop-blur-xl border border-slate-700/50 shadow-[0_0_30px_rgba(6,182,212,0.15)] group-hover/form:border-cyan-500/50 transition-all duration-500 relative z-10 overflow-hidden">
-              <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-cyan-400 to-purple-500"></div>
-              <CardHeader>
-                <CardTitle className="text-2xl font-mono text-white/95 text-center tracking-tight">Open Secure Channel</CardTitle>
-                <CardDescription className="text-center font-mono uppercase text-xs tracking-widest text-slate-400 mt-2">Latency: ~24.0 hours</CardDescription>
-              </CardHeader>
-              <CardContent>
-                <Web3ContactForm
-                  status={status}
-                  setStatus={setStatus}
-                  loading={loading}
-                  setLoading={setLoading}
-                  success={success}
-                  setSuccess={setSuccess}
-                />
-              </CardContent>
-            </Card>
+      <div className="container max-w-6xl">
+        <div className="grid gap-14 lg:grid-cols-[1fr_1.1fr] lg:gap-20">
+          <div>
+            <SectionHeading
+              index="05"
+              label="Contact"
+              className="mb-0 md:mb-0"
+              title={
+                <>
+                  Let&apos;s build something{" "}
+                  <span className="font-serif font-normal italic tracking-[-0.02em] text-primary">intelligent.</span>
+                </>
+              }
+              description="Whether it's an ML role, a research collaboration or an interesting problem, I'd love to hear about it. I usually reply within a day."
+            />
+
+            <Reveal delay={0.12}>
+              <div className="mt-10 flex flex-wrap items-center gap-2">
+                <a
+                  href={`mailto:${EMAIL}`}
+                  className="text-lg md:text-xl font-medium underline decoration-white/20 underline-offset-[6px] transition-colors hover:decoration-primary"
+                >
+                  {EMAIL}
+                </a>
+                <button
+                  type="button"
+                  onClick={copyEmail}
+                  aria-label="Copy email address"
+                  className="grid h-9 w-9 place-items-center rounded-full text-muted-foreground transition-colors hover:bg-white/[0.06] hover:text-foreground"
+                >
+                  {copied ? <Check className="h-4 w-4 text-primary" /> : <Copy className="h-4 w-4" />}
+                </button>
+              </div>
+            </Reveal>
+
+            <Reveal delay={0.16}>
+              <ul className="mt-10 border-t border-white/[0.07]">
+                {profiles.map((p) => (
+                  <li key={p.label}>
+                    <Link
+                      href={p.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="group flex items-center justify-between border-b border-white/[0.07] py-4"
+                    >
+                      <span className="text-[15px]">{p.label}</span>
+                      <span className="flex items-center gap-3 font-mono text-xs text-muted-foreground transition-colors group-hover:text-foreground">
+                        {p.handle}
+                        <ArrowUpRight className="h-4 w-4 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-primary" />
+                      </span>
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </Reveal>
           </div>
-        </Reveal>
+
+          <Reveal delay={0.1}>
+            <div className="surface bg-zinc-950/60 p-6 backdrop-blur-xl md:p-10">
+              <h3 className="text-xl font-medium tracking-tight">Send a message</h3>
+              <p className="mt-2 mb-8 text-sm text-muted-foreground">It lands straight in my inbox.</p>
+              <ContactForm />
+            </div>
+          </Reveal>
+        </div>
       </div>
     </section>
   )

@@ -1,9 +1,8 @@
 import type React from "react"
-import type { Metadata } from "next"
-import { Inter, Dancing_Script } from "next/font/google"
+import type { Metadata, Viewport } from "next"
+import { Inter, Instrument_Serif, JetBrains_Mono } from "next/font/google"
 import "./globals.css"
 import { ThemeProvider } from "@/components/theme-provider"
-import { SplashCursor } from "@/components/ui/splash-cursor"
 import { Navbar } from "@/components/navbar"
 import { Footer } from "@/components/footer"
 
@@ -12,16 +11,31 @@ const inter = Inter({
   variable: "--font-inter",
 })
 
-const dancingScript = Dancing_Script({
+const instrumentSerif = Instrument_Serif({
   subsets: ["latin"],
-  weight: "700",
-  variable: "--font-dancing-script",
+  weight: "400",
+  style: ["normal", "italic"],
+  variable: "--font-serif",
+})
+
+const jetbrainsMono = JetBrains_Mono({
+  subsets: ["latin"],
+  variable: "--font-mono",
 })
 
 export const metadata: Metadata = {
-  title: "Dhruv Sandhu | ML Engineer",
-  description: "Portfolio of Dhruv Sandhu, a passionate Machine Learning Engineer.",
-    generator: 'v0.app'
+  title: "Dhruv Sandhu — Machine Learning Engineer",
+  description:
+    "Dhruv Sandhu is a Machine Learning Engineer at IIT Bhubaneswar building GenAI, NLP and graph learning systems — from research to production.",
+  openGraph: {
+    title: "Dhruv Sandhu — Machine Learning Engineer",
+    description: "GenAI, NLP and graph learning systems — from research to production.",
+    type: "website",
+  },
+}
+
+export const viewport: Viewport = {
+  themeColor: "#09090b",
 }
 
 export default function RootLayout({
@@ -30,14 +44,14 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning>
-      <body
-        className={`${inter.variable} ${dancingScript.variable} font-sans bg-background text-foreground scroll-smooth`}
-      >
+    <html lang="en" className="dark" suppressHydrationWarning>
+      <head>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/devicons/devicon@v2.15.1/devicon.min.css" />
+      </head>
+      <body className={`${inter.variable} ${instrumentSerif.variable} ${jetbrainsMono.variable} font-sans`}>
         <ThemeProvider attribute="class" defaultTheme="dark" enableSystem={false} disableTransitionOnChange>
-          <SplashCursor />
           <Navbar />
-          <main className="pt-16">{children}</main>
+          <main className="relative overflow-x-clip">{children}</main>
           <Footer />
         </ThemeProvider>
       </body>

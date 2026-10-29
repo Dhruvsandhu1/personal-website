@@ -1,30 +1,54 @@
 import Link from "next/link"
-import { Github, Linkedin, Mail } from "lucide-react"
+import { ArrowUp, Github, Linkedin, Mail } from "lucide-react"
+
+const socials = [
+  { label: "GitHub", href: "https://github.com/Dhruvsandhu1", icon: Github },
+  { label: "LinkedIn", href: "https://www.linkedin.com/in/dhruvsandhu/", icon: Linkedin },
+  { label: "Email", href: "mailto:dhruvsandhu21@gmail.com", icon: Mail },
+]
 
 export function Footer() {
   return (
-    <footer className="bg-card border-t border-border py-8 text-center">
-      <div className="container mx-auto px-4 md:px-6">
-        <div className="flex justify-center space-x-6 mb-4">
-          <Link href="https://github.com/Dhruvsandhu1" target="_blank" rel="noopener noreferrer" aria-label="GitHub">
-            <Github className="h-6 w-6 text-muted-foreground hover:text-primary transition-colors" />
-          </Link>
-          <Link
-            href="https://www.linkedin.com/in/dhruvsandhu/"
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label="LinkedIn"
-          >
-            <Linkedin className="h-6 w-6 text-muted-foreground hover:text-primary transition-colors" />
-          </Link>
-          <Link href="mailto:dhruvsandhu21@gmail.com" aria-label="Email">
-            <Mail className="h-6 w-6 text-muted-foreground hover:text-primary transition-colors" />
-          </Link>
+    <footer className="border-t border-white/[0.06]">
+      <div className="container max-w-6xl py-10">
+        <div className="flex flex-col gap-8 md:flex-row md:items-center md:justify-between">
+          <div className="flex items-center gap-3">
+            <span className="grid h-8 w-8 place-items-center rounded-full bg-foreground text-xs font-semibold text-background">
+              DS
+            </span>
+            <div>
+              <p className="text-sm font-medium">Dhruv Sandhu</p>
+              <p className="text-xs text-muted-foreground">Machine Learning Engineer</p>
+            </div>
+          </div>
+
+          <div className="flex items-center gap-1">
+            {socials.map(({ label, href, icon: Icon }) => (
+              <Link
+                key={label}
+                href={href}
+                target={href.startsWith("http") ? "_blank" : undefined}
+                rel="noopener noreferrer"
+                aria-label={label}
+                className="grid h-10 w-10 place-items-center rounded-full text-muted-foreground transition-colors hover:bg-white/[0.06] hover:text-foreground"
+              >
+                <Icon className="h-4 w-4" />
+              </Link>
+            ))}
+            <Link
+              href="#home"
+              aria-label="Back to top"
+              className="ml-2 grid h-10 w-10 place-items-center rounded-full border border-white/10 text-muted-foreground transition-colors hover:text-foreground"
+            >
+              <ArrowUp className="h-4 w-4" />
+            </Link>
+          </div>
         </div>
-        <p className="text-sm text-muted-foreground">
-          &copy; {new Date().getFullYear()} Dhruv Sandhu. All rights reserved.
-        </p>
-        <p className="text-xs text-muted-foreground mt-1">Built with Next.js, Tailwind CSS, and a sprinkle of magic.</p>
+
+        <div className="mt-10 flex flex-col gap-2 border-t border-white/[0.06] pt-6 text-xs text-muted-foreground sm:flex-row sm:justify-between">
+          <p>&copy; {new Date().getFullYear()} Dhruv Sandhu. All rights reserved.</p>
+          <p>Designed &amp; built with Next.js and Tailwind CSS.</p>
+        </div>
       </div>
     </footer>
   )
