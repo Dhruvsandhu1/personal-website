@@ -3,6 +3,7 @@ import Link from "next/link"
 import { ArrowUpRight, Github } from "lucide-react"
 import { Reveal } from "@/components/ui/reveal"
 import { SectionHeading } from "@/components/section-heading"
+import { SpotlightCard } from "@/components/ui/spotlight-card"
 import { cn } from "@/lib/utils"
 
 type Project = {
@@ -50,9 +51,10 @@ const projects: Project[] = [
 
 function ProjectCard({ project, index, featured }: { project: Project; index: number; featured?: boolean }) {
   return (
-    <article
+    <SpotlightCard
+      tilt={featured ? 1.5 : 3}
       className={cn(
-        "surface group overflow-hidden p-2 transition-colors duration-500 hover:border-white/[0.14]",
+        "group flex h-full flex-col overflow-hidden p-2 transition-colors duration-500 hover:border-white/[0.14]",
         featured && "lg:grid lg:grid-cols-[1.2fr_1fr]",
       )}
     >
@@ -71,7 +73,7 @@ function ProjectCard({ project, index, featured }: { project: Project; index: nu
           alt=""
           fill
           sizes={featured ? "(min-width: 1024px) 640px, 100vw" : "(min-width: 768px) 520px, 100vw"}
-          className="object-cover transition-transform duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-[1.04]"
+          className="object-cover transition-transform duration-700 [transition-timing-function:cubic-bezier(0.16,1,0.3,1)] group-hover:scale-[1.04]"
         />
         <div aria-hidden className="absolute inset-0 bg-gradient-to-t from-zinc-950/50 via-transparent to-transparent" />
         <span className="absolute left-4 top-4 rounded-full border border-white/15 bg-zinc-950/60 px-3 py-1 font-mono text-[10px] uppercase tracking-[0.18em] text-foreground/80 backdrop-blur-md">
@@ -126,7 +128,7 @@ function ProjectCard({ project, index, featured }: { project: Project; index: nu
           )}
         </div>
       </div>
-    </article>
+    </SpotlightCard>
   )
 }
 
@@ -138,7 +140,7 @@ export function ProjectsSection() {
       <div className="container max-w-6xl">
         <div className="flex flex-col gap-8 md:flex-row md:items-end md:justify-between">
           <SectionHeading
-            index="03"
+            index="04"
             label="Selected work"
             className="mb-0 md:mb-0"
             title={
@@ -167,7 +169,7 @@ export function ProjectsSection() {
           </Reveal>
           <div className="grid gap-4 md:grid-cols-2">
             {rest.map((project, i) => (
-              <Reveal key={project.title} delay={i * 0.06} className="h-full [&>article]:flex [&>article]:h-full [&>article]:flex-col">
+              <Reveal key={project.title} delay={i * 0.06} className="h-full">
                 <ProjectCard project={project} index={i + 1} />
               </Reveal>
             ))}

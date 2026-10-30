@@ -1,6 +1,7 @@
 import { BrainCircuit, Code2, Database, Cloud, Wrench, type LucideIcon } from "lucide-react"
 import { Reveal } from "@/components/ui/reveal"
 import { SectionHeading } from "@/components/section-heading"
+import { SpotlightCard } from "@/components/ui/spotlight-card"
 import { cn } from "@/lib/utils"
 
 type Skill = { name: string; icon?: string }
@@ -58,7 +59,7 @@ const groups: SkillGroup[] = [
     className: "md:col-span-2",
     skills: [
       { name: "Docker", icon: "devicon-docker-plain" },
-      { name: "AWS", icon: "devicon-amazonwebservices-original" },
+      { name: "AWS", icon: "devicon-amazonwebservices-plain" },
       { name: "AWS SageMaker" },
       { name: "MLflow" },
       { name: "DVC" },
@@ -87,7 +88,7 @@ export function SkillsSection() {
     <section id="skills" className="relative border-t border-white/[0.06] py-28 md:py-40">
       <div className="container max-w-6xl">
         <SectionHeading
-          index="02"
+          index="03"
           label="Skills"
           title={
             <>
@@ -100,35 +101,33 @@ export function SkillsSection() {
 
         <div className="grid gap-4 md:grid-cols-3">
           {groups.map(({ title, description, icon: Icon, className, skills }, i) => (
-            <Reveal key={title} delay={i * 0.05} className={cn("surface group p-7 md:p-8", className)}>
-              <div
-                aria-hidden
-                className="pointer-events-none absolute inset-0 rounded-2xl opacity-0 transition-opacity duration-500 group-hover:opacity-100 bg-[radial-gradient(400px_circle_at_0%_0%,hsl(var(--primary)/0.08),transparent_60%)]"
-              />
-              <div className="relative">
-                <div className="flex items-center gap-3">
-                  <span className="grid h-9 w-9 place-items-center rounded-lg border border-white/10 bg-white/[0.03]">
-                    <Icon className="h-4 w-4 text-primary" strokeWidth={1.75} />
-                  </span>
-                  <h3 className="text-lg font-medium tracking-tight">{title}</h3>
+            <Reveal key={title} delay={i * 0.05} className={className}>
+              <SpotlightCard className="h-full p-7 md:p-8">
+                <div className="relative">
+                  <div className="flex items-center gap-3">
+                    <span className="grid h-9 w-9 place-items-center rounded-lg border border-white/10 bg-white/[0.03]">
+                      <Icon className="h-4 w-4 text-primary" strokeWidth={1.75} />
+                    </span>
+                    <h3 className="text-lg font-medium tracking-tight">{title}</h3>
+                  </div>
+                  <p className="mt-4 max-w-md text-[15px] leading-relaxed text-muted-foreground">{description}</p>
+                  <ul className="mt-6 flex flex-wrap gap-2">
+                    {skills.map((s) => (
+                      <li
+                        key={s.name}
+                        className="inline-flex items-center gap-2 rounded-full border border-white/[0.08] bg-white/[0.02] px-3.5 py-1.5 text-[13px] text-foreground/85 transition-colors hover:border-primary/40 hover:text-foreground"
+                      >
+                        {s.icon ? (
+                          <i aria-hidden className={cn(s.icon, "text-[15px] text-muted-foreground")} />
+                        ) : (
+                          <span aria-hidden className="h-1.5 w-1.5 rounded-full bg-primary/70" />
+                        )}
+                        {s.name}
+                      </li>
+                    ))}
+                  </ul>
                 </div>
-                <p className="mt-4 max-w-md text-[15px] leading-relaxed text-muted-foreground">{description}</p>
-                <ul className="mt-6 flex flex-wrap gap-2">
-                  {skills.map((s) => (
-                    <li
-                      key={s.name}
-                      className="inline-flex items-center gap-2 rounded-full border border-white/[0.08] bg-white/[0.02] px-3.5 py-1.5 text-[13px] text-foreground/85 transition-colors hover:border-primary/40 hover:text-foreground"
-                    >
-                      {s.icon ? (
-                        <i aria-hidden className={cn(s.icon, "text-[15px] text-muted-foreground")} />
-                      ) : (
-                        <span aria-hidden className="h-1.5 w-1.5 rounded-full bg-primary/70" />
-                      )}
-                      {s.name}
-                    </li>
-                  ))}
-                </ul>
-              </div>
+              </SpotlightCard>
             </Reveal>
           ))}
         </div>

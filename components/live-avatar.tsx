@@ -1,8 +1,9 @@
 "use client"
 
 import { useEffect, useState } from "react"
-import { AnimatePresence, motion, useMotionValue, useReducedMotion, useSpring } from "framer-motion"
+import { AnimatePresence, motion, useMotionValue, useSpring } from "framer-motion"
 import { cn } from "@/lib/utils"
+import { usePrefersReducedMotion } from "@/hooks/use-prefers-reduced-motion"
 
 const SRC = "https://res.cloudinary.com/di1pcuklp/image/upload/v1756662024/dhruv_snap-removebg_dfmwzv.png"
 
@@ -54,7 +55,7 @@ function SpeechBubble() {
       animate={{ opacity: 1, scale: 1, y: 0 }}
       transition={{ type: "spring", bounce: 0.35, duration: 0.7, delay: 1 }}
       style={{ transformOrigin: "0% 100%" }}
-      className="absolute left-[64%] top-[3%] z-20 whitespace-nowrap rounded-2xl rounded-bl-md border border-white/10 bg-zinc-950/80 px-3.5 py-2 text-[13px] font-medium shadow-xl backdrop-blur-md"
+      className="absolute left-[64%] top-[3%] z-20 max-w-[58%] rounded-2xl rounded-bl-md border border-white/10 bg-zinc-950/80 px-3.5 py-2 text-[12px] font-medium leading-snug sm:text-[13px] shadow-xl backdrop-blur-md"
     >
       <span>{typed}</span>
       <span className="ml-px inline-block h-[1em] w-px translate-y-[2px] animate-pulse bg-primary" />
@@ -77,7 +78,7 @@ function SpeechBubble() {
 }
 
 export function LiveAvatar({ className, alt }: { className?: string; alt: string }) {
-  const reduce = useReducedMotion()
+  const reduce = usePrefersReducedMotion()
   const look = useMotionValue(0)
   const headRotate = useSpring(look, { stiffness: 60, damping: 14, mass: 0.8 })
 

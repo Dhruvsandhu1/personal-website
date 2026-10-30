@@ -8,11 +8,12 @@ import { Menu, ArrowUpRight } from "lucide-react"
 import { cn } from "@/lib/utils"
 
 const navItems = [
-  { label: "About", href: "#about" },
-  { label: "Skills", href: "#skills" },
-  { label: "Projects", href: "#projects" },
-  { label: "Experience", href: "#experience" },
-  { label: "Contact", href: "#contact" },
+  { label: "About", href: "/#about" },
+  { label: "Focus", href: "/#focus" },
+  { label: "Skills", href: "/#skills" },
+  { label: "Projects", href: "/#projects" },
+  { label: "Experience", href: "/#experience" },
+  { label: "Contact", href: "/#contact" },
 ]
 
 export function Navbar() {
@@ -26,9 +27,9 @@ export function Navbar() {
 
       let current = ""
       navItems.forEach((item) => {
-        const section = document.getElementById(item.href.substring(1))
+        const section = document.getElementById(item.href.split("#")[1])
         if (section && section.offsetTop <= window.scrollY + window.innerHeight * 0.35) {
-          current = item.href.substring(1)
+          current = item.href.split("#")[1]
         }
       })
       setActiveSection(current)
@@ -49,7 +50,7 @@ export function Navbar() {
             : "border-transparent bg-transparent",
         )}
       >
-        <Link href="#home" className="group flex items-center gap-2.5" aria-label="Back to top">
+        <Link href="/#home" className="group flex items-center gap-2.5" aria-label="Back to top">
           <span className="grid h-7 w-7 place-items-center rounded-full bg-foreground text-[11px] font-semibold text-background transition-transform duration-300 group-hover:rotate-[-8deg]">
             DS
           </span>
@@ -58,7 +59,7 @@ export function Navbar() {
 
         <nav className="hidden md:flex items-center gap-1" aria-label="Primary">
           {navItems.map((item) => {
-            const isActive = activeSection === item.href.substring(1)
+            const isActive = activeSection === item.href.split("#")[1]
             return (
               <Link
                 key={item.label}
@@ -100,7 +101,7 @@ export function Navbar() {
                 <Menu className="h-4 w-4" />
               </button>
             </SheetTrigger>
-            <SheetContent side="right" className="w-full max-w-xs border-white/10 bg-zinc-950">
+            <SheetContent side="right" aria-describedby={undefined} className="w-full max-w-xs border-white/10 bg-zinc-950">
               <SheetTitle className="eyebrow">Navigate</SheetTitle>
               <nav className="mt-10 flex flex-col" aria-label="Mobile">
                 {navItems.map((item, i) => (

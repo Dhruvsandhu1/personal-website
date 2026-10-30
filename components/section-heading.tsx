@@ -1,5 +1,5 @@
 import type { ReactNode } from "react"
-import { Reveal } from "@/components/ui/reveal"
+import { MaskReveal, Reveal } from "@/components/ui/reveal"
 import { cn } from "@/lib/utils"
 
 type SectionHeadingProps = {
@@ -19,11 +19,9 @@ export function SectionHeading({ index, label, title, description, className }: 
           {label}
         </p>
       </Reveal>
-      <Reveal delay={0.05}>
-        <h2 className="mt-5 text-4xl md:text-5xl lg:text-6xl font-semibold tracking-[-0.035em] leading-[1.05] text-balance">
-          {title}
-        </h2>
-      </Reveal>
+      <h2 className="mt-5 text-4xl md:text-5xl lg:text-6xl font-semibold tracking-[-0.035em] leading-[1.05] text-balance">
+        <MaskReveal delay={0.05}>{title}</MaskReveal>
+      </h2>
       {description && (
         <Reveal delay={0.1}>
           <p className="mt-6 text-base md:text-lg text-muted-foreground leading-relaxed max-w-2xl">{description}</p>

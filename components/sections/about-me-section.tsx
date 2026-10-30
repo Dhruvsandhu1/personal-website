@@ -60,8 +60,8 @@ export function AboutMeSection() {
         />
 
         <div className="grid gap-12 lg:grid-cols-[0.9fr_1.1fr] lg:gap-20">
-          <Reveal>
-            <figure className="surface overflow-hidden p-2 lg:sticky lg:top-28">
+          <Reveal className="lg:sticky lg:top-28 lg:self-start">
+            <figure className="surface overflow-hidden p-2">
               <div className="relative aspect-square overflow-hidden rounded-xl bg-gradient-to-b from-zinc-800/50 to-zinc-950">
                 <div
                   aria-hidden

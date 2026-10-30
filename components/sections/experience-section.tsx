@@ -1,6 +1,7 @@
 import { GraduationCap, Award } from "lucide-react"
 import { Reveal } from "@/components/ui/reveal"
 import { SectionHeading } from "@/components/section-heading"
+import { TimelineRail } from "@/components/ui/timeline-rail"
 
 const work = [
   {
@@ -105,7 +106,7 @@ export function ExperienceSection() {
     <section id="experience" className="relative border-t border-white/[0.06] py-28 md:py-40">
       <div className="container max-w-6xl">
         <SectionHeading
-          index="04"
+          index="05"
           label="Experience"
           title={
             <>
@@ -116,41 +117,47 @@ export function ExperienceSection() {
           }
         />
 
-        <ol className="border-t border-white/[0.07]">
-          {work.map((job, i) => (
-            <Reveal key={job.company} as="li" delay={i * 0.05}>
-              <div className="group grid gap-6 border-b border-white/[0.07] py-10 md:grid-cols-[14rem_1fr] md:gap-12 md:py-12">
-                <div>
-                  <p className="font-mono text-xs text-muted-foreground">{job.period}</p>
-                  <p className="mt-2 text-sm text-foreground/80">{job.company}</p>
+        <TimelineRail>
+          <ol className="border-t border-white/[0.07]">
+            {work.map((job, i) => (
+              <Reveal key={job.company} as="li" delay={i * 0.05}>
+                <div className="group relative grid gap-6 border-b border-white/[0.07] py-10 md:grid-cols-[14rem_1fr] md:gap-12 md:py-12">
+                  <span
+                    aria-hidden
+                    className="absolute -left-12 top-[3.25rem] hidden h-2.5 w-2.5 -translate-x-1/2 rounded-full border border-primary/70 bg-background transition-colors duration-500 group-hover:bg-primary xl:block"
+                  />
+                  <div>
+                    <p className="font-mono text-xs text-muted-foreground">{job.period}</p>
+                    <p className="mt-2 text-sm text-foreground/80">{job.company}</p>
+                  </div>
+                  <div>
+                    <h3 className="text-2xl md:text-3xl font-semibold tracking-[-0.03em] transition-colors group-hover:text-primary">
+                      {job.role}
+                    </h3>
+                    <ul className="mt-5 space-y-3">
+                      {job.points.map((p) => (
+                        <li key={p} className="flex gap-3 text-[15px] leading-relaxed text-muted-foreground">
+                          <span aria-hidden className="mt-[0.7em] h-1 w-1 shrink-0 rounded-full bg-primary/70" />
+                          {p}
+                        </li>
+                      ))}
+                    </ul>
+                    <ul className="mt-6 flex flex-wrap gap-2">
+                      {job.tags.map((t) => (
+                        <li
+                          key={t}
+                          className="rounded-full border border-white/[0.08] px-3 py-1 font-mono text-[11px] text-muted-foreground"
+                        >
+                          {t}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
                 </div>
-                <div>
-                  <h3 className="text-2xl md:text-3xl font-semibold tracking-[-0.03em] transition-colors group-hover:text-primary">
-                    {job.role}
-                  </h3>
-                  <ul className="mt-5 space-y-3">
-                    {job.points.map((p) => (
-                      <li key={p} className="flex gap-3 text-[15px] leading-relaxed text-muted-foreground">
-                        <span aria-hidden className="mt-[0.7em] h-1 w-1 shrink-0 rounded-full bg-primary/70" />
-                        {p}
-                      </li>
-                    ))}
-                  </ul>
-                  <ul className="mt-6 flex flex-wrap gap-2">
-                    {job.tags.map((t) => (
-                      <li
-                        key={t}
-                        className="rounded-full border border-white/[0.08] px-3 py-1 font-mono text-[11px] text-muted-foreground"
-                      >
-                        {t}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              </div>
-            </Reveal>
-          ))}
-        </ol>
+              </Reveal>
+            ))}
+          </ol>
+        </TimelineRail>
 
         <div className="mt-16 grid gap-4 md:grid-cols-2">
           <MiniList title="Education" icon={GraduationCap} items={education} />

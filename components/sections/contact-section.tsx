@@ -169,7 +169,7 @@ export function ContactSection() {
         <div className="grid gap-14 lg:grid-cols-[1fr_1.1fr] lg:gap-20">
           <div>
             <SectionHeading
-              index="05"
+              index="06"
               label="Contact"
               className="mb-0 md:mb-0"
               title={
